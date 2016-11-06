@@ -32,6 +32,7 @@
       var numberOfFaces = 5;
       var theLeftSide = document.getElementById("leftSide");
       var theRightSide = document.getElementById("rightSide");
+      var theBody = document.getElementsByTagName("body")[0];
       function generateFaces() {
         // Loop through numberOfFaces times
         for (var i = 0; i < numberOfFaces; i++) {
@@ -54,7 +55,38 @@
         leftSideImages.removeChild(leftSideImages.lastChild);
         // Add the copied images(except the removed one) to the right side
         theRightSide.appendChild(leftSideImages);
+        // Create an event handler for the last element in the left side
+        theLeftSide.lastChild.onclick=
+          // Clicking the last child will clear the nodes on both sides and
+          // add 5 more nodes to the previous number of nodes to be displayed
+          function nextLevel(event){
+              function deleteNodes(parentNode) {
+                // Create a function to delete all the child nodes
+                while (parentNode.firstChild) {
+                  // While there is a node, remove it
+                  parentNode.removeChild(parentNode.firstChild);
+                }
+              }
+              // Delete the nodes on the left and right sides
+              deleteNodes(theLeftSide);
+              deleteNodes(theRightSide);
+              // Ensure that the event does not also get applied to other elements
+              event.stopPropagation();
+              // Add 5 more faces to be generated
+              numberOfFaces += 5;
+              // Generate the faces
+              generateFaces();
+        };
+        theBody.onclick = function gameOver() {
+            // Send an alert to tell the player the game is over
+            alert("Game Over!");
+            // Make the buttons non-clickable
+            theBody.onclick = null;
+            theLeftSide.lastChild.onclick = null;
+        };
       }
+      // Call the function
+      generateFaces();
     </script>
   </body>
 </html>
