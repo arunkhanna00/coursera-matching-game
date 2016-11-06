@@ -31,6 +31,7 @@
     <script type="text/javascript">
       var numberOfFaces = 5;
       var theLeftSide = document.getElementById("leftSide");
+      var theRightSide = document.getElementById("rightSide");
       function generateFaces() {
         // Loop through numberOfFaces times
         for (var i = 0; i < numberOfFaces; i++) {
@@ -47,6 +48,12 @@
           smileImg.style.left = leftOffset + "px";
           smileImg.style.top = topOffset + "px";
         }
+        // Copy all the images on the left side
+        var leftSideImages = theLeftSide.cloneNode(true);
+        // Remove the last child
+        leftSideImages.removeChild(leftSideImages.lastChild);
+        // Add the copied images(except the removed one) to the right side
+        theRightSide.appendChild(leftSideImages);
       }
     </script>
   </body>
